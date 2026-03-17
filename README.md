@@ -1,19 +1,22 @@
 # 🦜 PollyGlot
 
-**Perfect Translation Every Time** — An AI-powered translation app that instantly translates your text into French, Spanish, or Japanese.
+**AI-Powered Translation App** — Instantly translate text into French, Spanish, or Japanese with a clean, Duolingo-inspired interface.
 
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat&logo=openai&logoColor=white)
+![OpenRouter](https://img.shields.io/badge/OpenRouter-6366F1?style=flat&logoColor=white)
 
 ---
 
 ## ✨ Features
 
-- 🌍 **Multi-Language Support** — Translate text to French, Spanish, or Japanese
-- 🤖 **AI-Powered** — Leverages OpenAI's GPT model for accurate, context-aware translations
-- ⚡ **Fast & Lightweight** — Built with Vite for blazing-fast development and performance
-- 🎨 **Clean UI** — Modern, responsive interface with the Poppins font family
+- 🌍 **Multi-Language** — French 🇫🇷, Spanish 🇪🇸, and Japanese 🇯🇵
+- 🤖 **AI-Powered** — Uses OpenRouter API for context-aware translations
+- 🎨 **Duolingo-Style UI** — Dark mode, 3D green button, pill selectors, smooth animations
+- 🔒 **Secure** — API key stays on the server, never exposed to the browser
+- ⚡ **Lightweight** — Express backend + vanilla JS frontend, no heavy frameworks
+- ⌨️ **Keyboard Shortcut** — Press `Ctrl+Enter` to translate instantly
 
 ---
 
@@ -21,46 +24,59 @@
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v16 or higher recommended)
-- An [OpenAI API Key](https://platform.openai.com/api-keys)
+- [Node.js](https://nodejs.org/) v18+
+- An [OpenRouter API Key](https://openrouter.ai/keys)
 
-### Installation
+### Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd Translation\ App
-   ```
+```bash
+# 1. Clone the repo
+git clone <repository-url>
+cd Translation\ App
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+# 2. Install dependencies
+npm install
 
-3. **Configure your API key**
-   
-   Create a `.env` file in the root directory (or update the existing one):
-   ```env
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
+# 3. Create your .env file
+```
 
-4. **Start the development server**
-   ```bash
-   npm start
-   ```
+Create a `.env` file in the root:
 
-5. Open your browser and navigate to `http://localhost:5173`
+```env
+OPENROUTER_API_KEY=your_api_key_here
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_MODEL=openai/gpt-oss-safeguard-20b
+PORT=3000
+```
+
+```bash
+# 4. Start the server
+npm run server
+```
+
+Open `http://localhost:3000` in your browser — done! 🎉
 
 ---
 
-## 🛠️ Tech Stack
+## 🏗️ Architecture
 
-| Technology | Purpose |
-|------------|---------|
-| **Vite** | Build tool and development server |
-| **JavaScript (ES6+)** | Core application logic |
-| **OpenAI API** | AI-powered translation engine |
-| **CSS3** | Custom styling with Poppins font |
+```
+Browser (index.js)
+    │
+    │  POST /api/translate { text, language }
+    ▼
+Express Server (server.js)
+    │
+    │  POST /chat/completions (with API key)
+    ▼
+OpenRouter AI API
+    │
+    │  Translated text
+    ▼
+Browser (displays result)
+```
+
+The frontend sends requests to Express, which securely proxies them to OpenRouter. Your API key never leaves the server.
 
 ---
 
@@ -69,58 +85,39 @@
 ```
 Translation App/
 ├── assets/
-│   ├── fr-flag.png      # French flag icon
-│   ├── sp-flag.png      # Spanish flag icon
-│   ├── jpn-flag.png     # Japanese flag icon
-│   ├── parrot.png       # PollyGlot mascot
-│   └── worldmap.png     # Header background
-├── index.html           # Main HTML structure
-├── index.css            # Styling
-├── index.js             # Application logic & OpenAI integration
-├── vite.config.js       # Vite configuration
-├── package.json         # Dependencies and scripts
-└── .env                 # Environment variables (API key)
+│   ├── parrot.png         # PollyGlot mascot (navbar logo)
+│   ├── fr-flag.png        # French flag
+│   ├── sp-flag.png        # Spanish flag
+│   ├── jpn-flag.png       # Japanese flag
+│   └── worldmap.png       # Legacy background asset
+├── server.js              # Express backend & API proxy
+├── index.html             # App HTML structure
+├── index.css              # Duolingo-style design system
+├── index.js               # Frontend logic & interactions
+├── vite.config.js         # Vite dev server config
+├── package.json           # Dependencies & scripts
+├── .env                   # Environment variables (gitignored)
+└── .gitignore             # Git ignore rules
 ```
 
 ---
 
-## 📖 How It Works
-
-1. **Enter Text** — Type or paste the text you want to translate in the input area
-2. **Select Language** — Choose your target language (French, Spanish, or Japanese)
-3. **Translate** — Click the "Translate" button
-4. **View Results** — Your translated text appears instantly
-
-The app sends your text to OpenAI's GPT model with the selected language, and the AI returns an accurate, context-aware translation.
-
----
-
-## 🔧 Available Scripts
+## 🔧 Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | Start the development server |
-| `npm run dev` | Alternative: Start the dev server |
-| `npm run build` | Build for production |
+| `npm run server` | Start the Express backend (production) |
+| `npm run dev` | Start the Vite dev server (frontend HMR) |
+| `npm run build` | Build frontend for production |
 | `npm run preview` | Preview the production build |
 
 ---
 
-## 🌐 Supported Languages
+## ⚠️ Notes
 
-| Language | Flag |
-|----------|------|
-| 🇫🇷 French | `french` |
-| 🇪🇸 Spanish | `spanish` |
-| 🇯🇵 Japanese | `japanese` |
-
----
-
-## ⚠️ Important Notes
-
-- **API Key Required** — You must provide a valid OpenAI API key for the translation feature to work
-- **Usage Costs** — Using the OpenAI API incurs costs based on usage; refer to [OpenAI's pricing](https://openai.com/pricing)
-- **Rate Limits** — Be mindful of OpenAI's rate limits to avoid service interruptions
+- **API Key Required** — A valid OpenRouter API key in `.env` is needed for translations
+- **Usage Costs** — OpenRouter API usage may incur costs; see [pricing](https://openrouter.ai/docs#models)
+- **Rate Limits** — Be mindful of API rate limits
 
 ---
 
@@ -133,8 +130,9 @@ This project is for educational purposes.
 ## 🙏 Acknowledgments
 
 - Built as part of the [Scrimba Fullstack Developer Path](https://scrimba.com/fullstack-path-c0fullstack)
-- Powered by [OpenAI](https://openai.com/)
-- Development server by [Vite](https://vitejs.dev/)
+- Powered by [OpenRouter](https://openrouter.ai/)
+- Dev server by [Vite](https://vitejs.dev/)
+- UI inspired by [Duolingo](https://www.duolingo.com/)
 
 ---
 
